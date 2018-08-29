@@ -38,7 +38,7 @@ jobs:
             docker build --build-arg APP_VERSION=$TAG -t $DOCKER_USER/$CIRCLE_PROJECT_REPONAME:$TAG -t $DOCKER_USER/$CIRCLE_PROJECT_REPONAME:latest .
             docker run -d $DOCKER_USER/$CIRCLE_PROJECT_REPONAME:$TAG
             CONTAINER_ID=$(docker ps -alq)
-            docker cp ${CONTAINER_ID}:/usr/local/apache2/htdocs ./dist
+            docker cp ${CONTAINER_ID}:/usr/share/nginx/html ./dist
             docker stop $CONTAINER_ID
       - run:
           name: Upload to Docker Hub
