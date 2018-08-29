@@ -12,7 +12,7 @@ COPY yarn.lock .
 RUN yarn install --silent --prod
 COPY . .
 RUN yarn run version $APP_VERSION
-RUN yarn build-all
+RUN yarn build
 
 FROM nginx:1.13-alpine
 ADD nginx.conf /etc/nginx/conf.d/default.conf
