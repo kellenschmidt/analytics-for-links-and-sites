@@ -1,0 +1,16 @@
+{
+	pageVisits {
+		_id
+    referrer
+    path
+    ipAddress {
+      _id
+      query
+      city
+      region
+      country
+      lat
+      lon
+    }
+  }
+}

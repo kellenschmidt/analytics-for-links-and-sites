@@ -1,0 +1,5 @@
+fragment ipAddress on IpAddress {
+  _id
+  city
+  region
+}
