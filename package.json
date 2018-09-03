@@ -10,6 +10,11 @@
     "version": "sh version.sh $npm_package_version"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.4",
+    "@fortawesome/free-brands-svg-icons": "^5.3.1",
+    "@fortawesome/free-regular-svg-icons": "^5.3.1",
+    "@fortawesome/free-solid-svg-icons": "^5.3.1",
+    "@fortawesome/vue-fontawesome": "^0.1.1",
     "vue": "^2.5.17",
     "vue-apollo": "^3.0.0-beta.10",
     "vue-router": "^3.0.1",
