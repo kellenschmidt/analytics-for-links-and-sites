@@ -1,68 +1,97 @@
 <template>
-  <!-- Apollo watched Graphql query -->
-  <ApolloQuery
-    :query="require('../graphql/PageVisits.gql')"
-  >
-    <template slot-scope="{ result: { loading, error, data } }">
-      <!-- Loading -->
-      <div v-if="loading" class="loading apollo">Loading...</div>
+  <div>
+    <v-navigation-drawer
+      v-model="drawer"
+      clipped
+      fixed
+      app
+    >
+      <p class="headline pt-4 text-xs-center">
+        Link Analytics
+      </p>
+      <v-avatar size="80px" class="d-flex mx-auto my-3">
+        <img src="@/assets/graphql.png" alt="user-avatar">
+      </v-avatar>
+      <p class="text-xs-center subheading">
+        Kellen Schmidt
+      </p>
+      <v-list dense>
+        <router-link
+          :to="item.name"
+          tag="span"
+          class="nav-row"
+          v-for="item in items"
+          :key="item.title"
+          @click="listItemClicked(item.title)">
+          <v-list-tile>
+            <v-list-tile-action>
+              <font-awesome-icon :icon="['fab', 'vuejs']" size="lg" pull="right"/>
+            </v-list-tile-action>
 
-      <!-- Error -->
-      <div v-else-if="error" class="error apollo">An error occured</div>
-
-      <!-- Result -->
-      <div v-else-if="data" class="result apollo">
-        <v-data-table
-          :headers="headers"
-          :items="data.pageVisits"
-          hide-actions
-          item-key="_id"
-        >
-          <template slot="items" slot-scope="props">
-            <tr @click="props.expanded = !props.expanded">
-              <td>{{ props.item.path }}</td>
-              <td>{{ props.item.ipAddress.query }}</td>
-              <td>{{ props.item.ipAddress.city }}</td>
-              <td>{{ props.item.ipAddress.region }}</td>
-              <td>{{ props.item.ipAddress.country }}</td>
-            </tr>
-          </template>
-          <template slot="expand" slot-scope="props">
-            <v-card flat>
-              <v-card-text>Map</v-card-text>
-              <GmapMap
-                :center="{lat: props.item.ipAddress.lat, lng: props.item.ipAddress.lon}"
-                :zoom="10"
-                style="width: 500px; height: 300px"
-              >
-                <GmapCircle :center="{lat: props.item.ipAddress.lat, lng: props.item.ipAddress.lon}" :radius="8500" @bounds_changed="updateCircle('bounds', $event)"></GmapCircle>
-              </GmapMap>
-              
-            </v-card>
-          </template>
-        </v-data-table>
-      </div>
-
-      <!-- No result -->
-      <div v-else class="no-result apollo">No result :(</div>
-    </template>
-  </ApolloQuery>
-
- 
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          
+          </v-list-tile>
+        </router-link>
+      </v-list>
+    </v-navigation-drawer>
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+          <router-view/>
+        </v-layout>
+      </v-container>
+    </v-content>
+    <v-footer app fixed>
+      <span>&copy; 2018</span>
+    </v-footer>
+  </div>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        headers: [
-          { text: 'Page', value: 'path' },
-          { text: 'IP Address', value: 'ipAddress.query' },
-          { text: 'City', value: 'ipAddress.city' },
-          { text: 'State', value: 'ipAddress.state' },
-          { text: 'Country', value: 'ipAddress.country' },
-        ],
-      }
+import Table from "./Table";
+
+export default {
+  // name: 'Home',
+  data () {
+    return {
+      items: [
+        { title: 'Overview', name: 'overview', icon: 'dashboard' },
+        { title: 'Browsers', name: 'browsers', icon: 'question_answer' },
+        { title: 'Operating Systems', name: 'operating-systems', icon: 'question_answer' },
+        { title: 'Devices', name: 'devices', icon: 'question_answer' },
+        { title: 'Location', name: 'location', icon: 'question_answer' },
+        { title: 'Frequency', name: 'frequency', icon: 'question_answer' },
+        { title: 'Table', name: 'table', icon: 'question_answer' },
+      ],
+      drawer: true,
+      selectedNavItem: "Overview"
     }
-  }
+  },
+  methods: {
+    listItemClicked: function (itemTitle) {
+      this.selectedNavItem = itemTitle;
+    }
+  },
+  components: {
+    Table
+  },
+}
 </script>
+
+<style scoped lang="scss">
+.nav-row {
+  opacity: 0.5;
+  display: inherit
+}
+
+.nav-row:hover {
+  cursor: pointer;
+}
+
+.router-link-active {
+  /* color: #e535ab; */
+  opacity: 1;
+}
+</style>
