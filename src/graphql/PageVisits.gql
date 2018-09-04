@@ -1,16 +1,40 @@
 {
-	pageVisits {
+  pageVisits {
 		_id
-    referrer
     path
-    ipAddress {
+    referrer
+		ipAddress {
       _id
-      query
-      city
-      region
-      country
-      lat
-      lon
+			query
+			status
+			country
+			countryCode
+			region
+			regionName
+			city
+			zip
+			lat
+			lon
+			timezone
+			isp
+			org
+			as
+    }
+    userAgent {
+      _id
+      userAgent
+      uaType
+      uaBrand
+      uaName
+      uaVersion
+      uaUrl
+      osName
+      osVersion
+      browserName
+      browserVersion
+      engineName
+      engineVersion
+      datetime
     }
   }
 }

@@ -25,6 +25,12 @@
               <td>{{ props.item.ipAddress.city }}</td>
               <td>{{ props.item.ipAddress.region }}</td>
               <td>{{ props.item.ipAddress.country }}</td>
+              <td>{{ props.item.userAgent.uaType }}</td>
+              <td>{{ props.item.userAgent.browserName }}</td>
+              <td>{{ props.item.userAgent.browserVersion }}</td>
+              <td>{{ props.item.userAgent.osName }}</td>
+              <td>{{ props.item.userAgent.osVersion }}</td>
+              <td>{{ props.item.userAgent.datetime | formatDate }}</td>
             </tr>
           </template>
           <template slot="expand" slot-scope="props">
@@ -62,6 +68,12 @@
           { text: 'City', value: 'ipAddress.city' },
           { text: 'State', value: 'ipAddress.state' },
           { text: 'Country', value: 'ipAddress.country' },
+          { text: 'Type', value: 'userAgent.uaType' },
+          { text: 'Browser', value: 'userAgent.browserName' },
+          { text: 'Browser Version', value: 'userAgent.browserName' },
+          { text: 'OS', value: 'userAgent.browserName' },
+          { text: 'OS Version', value: 'userAgent.browserName' },
+          { text: 'Date', value: 'userAgent.datetime' },
         ],
       }
     }

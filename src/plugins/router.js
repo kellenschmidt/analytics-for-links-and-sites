@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import Table from '../views/Table.vue'
+import Layout from '../views/Layout'
+import About from '../views/About'
+import Table from '../views/Table'
 
 Vue.use(Router)
 
@@ -10,11 +10,31 @@ export default new Router({
   base: '/analytics',
   routes: [
     {
-      path: '/',
-      component: Home,
+      path: '/links/:linkId/',
+      component: Layout,
       children: [
         {
           path: 'overview',
+          component: About,
+        },
+        {
+          path: 'browsers',
+          component: About,
+        },
+        {
+          path: 'operating-systems',
+          component: About,
+        },
+        {
+          path: 'devices',
+          component: About,
+        },
+        {
+          path: 'location',
+          component: About,
+        },
+        {
+          path: 'frequency',
           component: About,
         },
         {
@@ -26,6 +46,48 @@ export default new Router({
           redirect: 'table'
         }
       ]
+    },
+    {
+      path: '/sites/:siteId/',
+      component: Layout,
+      children: [
+        {
+          path: 'overview',
+          component: About,
+        },
+        {
+          path: 'browsers',
+          component: About,
+        },
+        {
+          path: 'operating-systems',
+          component: About,
+        },
+        {
+          path: 'devices',
+          component: About,
+        },
+        {
+          path: 'location',
+          component: About,
+        },
+        {
+          path: 'frequency',
+          component: About,
+        },
+        {
+          path: 'table',
+          component: Table,
+        },
+        {
+          path: '',
+          redirect: 'table'
+        }
+      ]
+    },
+    {
+      path: '',
+      redirect: 'sites/kellenforthewin/table'
     }
   ],
   mode: 'history',
