@@ -37,20 +37,20 @@
       </v-list>
     </v-navigation-drawer>
     <v-content>
-      <v-container fluid fill-height>
-        <v-layout justify-center align-center>
-          <router-view/>
-        </v-layout>
+      <v-container wrap grid-list-xl class="px-5">
+        <router-view/>
       </v-container>
     </v-content>
     <v-footer app fixed>
-      <span>&copy; 2018</span>
+      <span>&copy; 2018 Version:&nbsp;</span>
+      <a href="https://hub.docker.com/r/kellenschmidt/analytics-for-links-and-sites/tags/" target="_blank" rel="noopener">{{appVersion}}</a>
     </v-footer>
   </div>
 </template>
 
 <script>
 import Table from "./Table";
+import { appVersion } from '../app-version';
 
 export default {
   // name: 'Home',
@@ -66,7 +66,8 @@ export default {
         { title: 'Table', name: 'table', icon: 'question_answer' },
       ],
       drawer: true,
-      selectedNavItem: "Overview"
+      selectedNavItem: "Overview",
+      appVersion: appVersion,
     }
   },
   methods: {
@@ -91,7 +92,6 @@ export default {
 }
 
 .router-link-active {
-  /* color: #e535ab; */
   opacity: 1;
 }
 </style>

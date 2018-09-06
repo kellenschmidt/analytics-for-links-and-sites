@@ -53,8 +53,6 @@
       <div v-else class="no-result apollo">No result :(</div>
     </template>
   </ApolloQuery>
-
- 
 </template>
 
 <script>

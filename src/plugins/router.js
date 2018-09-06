@@ -3,6 +3,11 @@ import Router from 'vue-router'
 import Layout from '../views/Layout'
 import About from '../views/About'
 import Table from '../views/Table'
+import OperatingSystemsView from '../components/OperatingSystemsView'
+import BrowsersView from '../components/BrowsersView'
+import LineChart from '../components/charts/LineChart'
+import CustomChart from '../components/charts/CustomChart'
+// const TableLazy = () => import('../views/Table')
 
 Vue.use(Router)
 
@@ -19,23 +24,23 @@ export default new Router({
         },
         {
           path: 'browsers',
-          component: About,
+          component: BrowsersView,
         },
         {
           path: 'operating-systems',
-          component: About,
+          component: OperatingSystemsView,
         },
         {
           path: 'devices',
-          component: About,
+          component: LineChart,
         },
         {
           path: 'location',
-          component: About,
+          component: LineChart,
         },
         {
           path: 'frequency',
-          component: About,
+          component: CustomChart,
         },
         {
           path: 'table',
@@ -48,7 +53,7 @@ export default new Router({
       ]
     },
     {
-      path: '/sites/:siteId/',
+      path: '/site/',
       component: Layout,
       children: [
         {
@@ -57,23 +62,23 @@ export default new Router({
         },
         {
           path: 'browsers',
-          component: About,
+          component: BrowsersView,
         },
         {
           path: 'operating-systems',
-          component: About,
+          component: OperatingSystemsView,
         },
         {
           path: 'devices',
-          component: About,
+          component: LineChart,
         },
         {
           path: 'location',
-          component: About,
+          component: LineChart,
         },
         {
           path: 'frequency',
-          component: About,
+          component: CustomChart,
         },
         {
           path: 'table',
@@ -87,7 +92,7 @@ export default new Router({
     },
     {
       path: '',
-      redirect: 'sites/kellenforthewin/table'
+      redirect: 'site/table'
     }
   ],
   mode: 'history',
