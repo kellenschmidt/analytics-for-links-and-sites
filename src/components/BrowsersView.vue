@@ -6,17 +6,12 @@
       </v-flex>
     </v-layout>
     <v-layout row>
-      <v-flex xs3>
-        <chart-card title="Chrome Versions" chartType="pie-chart" :chartData="browserNameData" legendPos="bottom"/>
-      </v-flex>
-      <v-flex xs3>
-        <chart-card title="Safari Versions" chartType="pie-chart" :chartData="browserNameData" legendPos="bottom"/>
-      </v-flex>
-      <v-flex xs3>
-        <chart-card title="Firefox Versions" chartType="pie-chart" :chartData="browserNameData" legendPos="bottom"/>
-      </v-flex>
-      <v-flex xs3>
-        <chart-card title="Edge Versions" chartType="pie-chart" :chartData="browserNameData" legendPos="bottom"/>
+      <v-flex
+        xs3
+        v-for="item in browserVersionData"
+        :key="item.title"
+      >
+        <chart-card :title="item.browserName" chartType="pie-chart" :chartData="item.dataCollection" legendPos="bottom"/>
       </v-flex>
     </v-layout>
   </div>
@@ -43,15 +38,15 @@ export default {
   // },
   // methods: {
   //   getBrowserNameData: function() {
-  //     var browsersMap = {}
+  //     var browserMap = {}
   //     var pageVisitsData = this.pageVisitsData || []
   //     pageVisitsData.forEach((val) => {
   //       var browserName = val.userAgent.browserName
-  //       browsersMap[browserName] = (browsersMap[browserName] || 0) + 1
+  //       browserMap[browserName] = (browserMap[browserName] || 0) + 1
   //     })
   //     var returnData = {
-  //       rawData: Object.values(browsersMap),
-  //       labels: Object.keys(browsersMap),
+  //       rawData: Object.values(browserMap),
+  //       labels: Object.keys(browserMap),
   //     }
   //     console.log("Return data: ", returnData)
   //     return returnData
@@ -59,17 +54,42 @@ export default {
   // },
   computed: {
     browserNameData: function() {
-      var browsersMap = {}
+      var browserMap = {}
       var pageVisitsData = this.pageVisitsData || []
       pageVisitsData.forEach((val) => {
         var browserName = val.userAgent.browserName
-        browsersMap[browserName] = (browsersMap[browserName] || 0) + 1
+        browserMap[browserName] = (browserMap[browserName] || 0) + 1
       })
       var returnData = {
-        rawData: Object.values(browsersMap),
-        labels: Object.keys(browsersMap),
+        rawData: Object.values(browserMap),
+        labels: Object.keys(browserMap),
       }
-      console.log("Return data: ", returnData)
+      console.log("browserNameData:", returnData)
+      return returnData
+    },
+    browserVersionData: function() {
+      var browserMap = {}
+      var pageVisitsData = this.pageVisitsData || []
+      pageVisitsData.forEach((val) => {
+        var browserName = val.userAgent.browserName
+        var browserVersion = val.userAgent.browserVersion
+        var browserVersionMap = browserMap[browserName] || { [browserVersion]: 0 }
+        browserVersionMap[browserVersion] = (browserVersionMap[browserVersion] || 0) + 1
+        browserMap[browserName] = browserVersionMap
+      })
+      var returnData = []
+      var browserMapKeys = Object.keys(browserMap)
+      var browserMapValues = Object.values(browserMap)
+      for(var i=0; i < browserMapKeys.length; i++) {
+        returnData.push({
+          browserName: browserMapKeys[i],
+          dataCollection: {
+            labels: Object.keys(browserMapValues[i]),
+            rawData: Object.values(browserMapValues[i])
+          }
+        })
+      }
+      console.log("browserVersionData:", returnData)
       return returnData
     }
   },
