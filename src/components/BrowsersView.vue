@@ -5,12 +5,11 @@
         <chart-card title="Browsers" chartType="pie-chart" :chartData="browserNameData" legendPos="right"/>
       </v-flex>
     </v-layout>
-    <v-layout row>
+    <v-layout row wrap>
       <v-flex
-        xs3
+        xs12 sm6 md4 lg3 xl2
         v-for="item in browserVersionData"
-        :key="item.title"
-      >
+        :key="item.title">
         <chart-card :title="item.browserName" chartType="pie-chart" :chartData="item.dataCollection" legendPos="bottom"/>
       </v-flex>
     </v-layout>
@@ -22,36 +21,6 @@ import ChartCard from './ChartCard';
 
 export default {
   props: ["pageVisitsData"],
-  // data () {
-  //   return {
-  //     // samplePieData: {
-  //     //   rawData: [40, 20, 80, 10, 30],
-  //     //   labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
-  //     // },
-  //     browserNameData: this.getBrowserNameData()
-  //   }
-  // },
-  // watch: {
-  //   pageVisitsData: function() {
-  //     this.browserNameData = this.getBrowserNameData()
-  //   }
-  // },
-  // methods: {
-  //   getBrowserNameData: function() {
-  //     var browserMap = {}
-  //     var pageVisitsData = this.pageVisitsData || []
-  //     pageVisitsData.forEach((val) => {
-  //       var browserName = val.userAgent.browserName
-  //       browserMap[browserName] = (browserMap[browserName] || 0) + 1
-  //     })
-  //     var returnData = {
-  //       rawData: Object.values(browserMap),
-  //       labels: Object.keys(browserMap),
-  //     }
-  //     console.log("Return data: ", returnData)
-  //     return returnData
-  //   }
-  // },
   computed: {
     browserNameData: function() {
       var browserMap = {}

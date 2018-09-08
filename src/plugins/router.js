@@ -11,84 +11,53 @@ import CustomChart from '../components/charts/CustomChart'
 
 Vue.use(Router)
 
+const childRoutes = [
+  {
+    path: 'overview',
+    component: About,
+  },
+  {
+    path: 'browsers',
+    component: BrowsersView,
+  },
+  {
+    path: 'operating-systems',
+    component: OperatingSystemsView,
+  },
+  {
+    path: 'devices',
+    component: LineChart,
+  },
+  {
+    path: 'location',
+    component: LineChart,
+  },
+  {
+    path: 'frequency',
+    component: CustomChart,
+  },
+  {
+    path: 'table',
+    component: Table,
+  },
+  {
+    path: '',
+    redirect: 'table'
+  }
+]
+
 export default new Router({
   base: '/analytics',
   routes: [
     {
       path: '/links/:linkId/',
       component: Layout,
-      children: [
-        {
-          path: 'overview',
-          component: About,
-        },
-        {
-          path: 'browsers',
-          component: BrowsersView,
-        },
-        {
-          path: 'operating-systems',
-          component: OperatingSystemsView,
-        },
-        {
-          path: 'devices',
-          component: LineChart,
-        },
-        {
-          path: 'location',
-          component: LineChart,
-        },
-        {
-          path: 'frequency',
-          component: CustomChart,
-        },
-        {
-          path: 'table',
-          component: Table,
-        },
-        {
-          path: '',
-          redirect: 'table'
-        }
-      ]
+      children: childRoutes
     },
     {
       path: '/site/',
       component: Layout,
-      children: [
-        {
-          path: 'overview',
-          component: About,
-        },
-        {
-          path: 'browsers',
-          component: BrowsersView,
-        },
-        {
-          path: 'operating-systems',
-          component: OperatingSystemsView,
-        },
-        {
-          path: 'devices',
-          component: LineChart,
-        },
-        {
-          path: 'location',
-          component: LineChart,
-        },
-        {
-          path: 'frequency',
-          component: CustomChart,
-        },
-        {
-          path: 'table',
-          component: Table,
-        },
-        {
-          path: '',
-          redirect: 'table'
-        }
-      ]
+      children: childRoutes
     },
     {
       path: '',
