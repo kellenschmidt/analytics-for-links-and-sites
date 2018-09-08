@@ -21,11 +21,10 @@
           tag="span"
           class="nav-row"
           v-for="item in items"
-          :key="item.title"
-          @click="listItemClicked(item.title)">
+          :key="item.title">
           <v-list-tile>
             <v-list-tile-action>
-              <font-awesome-icon :icon="['fab', 'vuejs']" size="lg" pull="right"/>
+              <font-awesome-icon :icon="item.icon" size="lg" pull="right"/>
             </v-list-tile-action>
 
             <v-list-tile-content>
@@ -38,7 +37,7 @@
     </v-navigation-drawer>
     <v-content>
       <v-container wrap grid-list-xl class="px-5">
-        <router-view/>
+        <router-view :pageVisitsData="pageVisits"/>
       </v-container>
     </v-content>
     <v-footer app fixed>
@@ -51,32 +50,39 @@
 <script>
 import Table from "./Table";
 import { appVersion } from '../app-version';
+import PageVisitsGql from '../graphql/PageVisits.gql'
 
 export default {
   // name: 'Home',
   data () {
     return {
       items: [
-        { title: 'Overview', name: 'overview', icon: 'dashboard' },
-        { title: 'Browsers', name: 'browsers', icon: 'question_answer' },
-        { title: 'Operating Systems', name: 'operating-systems', icon: 'question_answer' },
-        { title: 'Devices', name: 'devices', icon: 'question_answer' },
-        { title: 'Location', name: 'location', icon: 'question_answer' },
-        { title: 'Frequency', name: 'frequency', icon: 'question_answer' },
-        { title: 'Table', name: 'table', icon: 'question_answer' },
+        { title: 'Overview', name: 'overview', icon: ['fab', 'vuejs'] },
+        { title: 'Browsers', name: 'browsers', icon: ['fab', 'vuejs'] },
+        { title: 'Operating Systems', name: 'operating-systems', icon: ['fab', 'vuejs'] },
+        { title: 'Devices', name: 'devices', icon: ['fab', 'vuejs'] },
+        { title: 'Location', name: 'location', icon: ['fab', 'vuejs'] },
+        { title: 'Frequency', name: 'frequency', icon: ['fab', 'vuejs'] },
+        { title: 'Table', name: 'table', icon: ['fab', 'vuejs'] },
       ],
       drawer: true,
-      selectedNavItem: "Overview",
       appVersion: appVersion,
-    }
-  },
-  methods: {
-    listItemClicked: function (itemTitle) {
-      this.selectedNavItem = itemTitle;
     }
   },
   components: {
     Table
+  },
+  apollo: {
+    pageVisits: {
+      query: PageVisitsGql,
+      result({ data, loading, networkStatus }) {
+        console.log("We got some result!", data)
+      },
+      // Error handling
+      error(error) {
+        console.error('We\'ve got an error!', error)
+      },
+    },
   },
 }
 </script>

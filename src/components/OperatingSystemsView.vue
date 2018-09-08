@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-layout row class="mb-2">
+    <v-layout row>
       <v-flex xs12>
         <chart-card title="Kellen" chartType="bar-chart" :chartData="barData"/>
       </v-flex>

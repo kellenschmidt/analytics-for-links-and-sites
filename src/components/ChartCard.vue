@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-card class="mx-3"> -->
   <v-card>
     <v-card-title primary-title>
       <div>
@@ -19,9 +18,9 @@
 
 <script>
 import BarChart from './charts/BarChart'
-import PieChart from './charts/PieChart'
 import LineChart from './charts/LineChart'
 import CustomChart from './charts/CustomChart'
+import PieChart from './chart-controllers/PieChartController'
 
 export default {
   // name: 'Home',
