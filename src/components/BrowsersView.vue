@@ -1,16 +1,19 @@
 <template>
   <div>
     <v-layout row class="mb-2">
-      <v-flex xs12>
-        <chart-card title="Browsers" chartType="pie-chart" :chartData="browserNameData" legendPos="right"/>
+      <v-flex xs6>
+        <chart-card title="Browsers" chartType="e-pie-chart" :chartData="browserNameData" size="big"/>
+      </v-flex>
+      <v-flex xs6>
+        <chart-card title="Browsers" chartType="e-pie-chart" :chartData="browserNameData" size="big"/>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
       <v-flex
-        xs12 sm6 md4 lg3 xl2
-        v-for="item in browserVersionData"
-        :key="item.title">
-        <chart-card :title="item.browserName" chartType="pie-chart" :chartData="item.dataCollection" legendPos="bottom"/>
+        xs12 sm6 md4 xl2
+        v-for="(item, key) in browserVersionData"
+        :key="key">
+        <chart-card :title="key" chartType="e-pie-chart" :chartData="item" size="small" class="pb-2"/>
       </v-flex>
     </v-layout>
   </div>
@@ -23,18 +26,23 @@ export default {
   props: ["pageVisitsData"],
   computed: {
     browserNameData: function() {
-      var browserMap = {}
+      var returnArr = []
       var pageVisitsData = this.pageVisitsData || []
       pageVisitsData.forEach((val) => {
         var browserName = val.userAgent.browserName
-        browserMap[browserName] = (browserMap[browserName] || 0) + 1
+        var newVal = 1
+        var currentIndex = returnArr.findIndex(x => x.name === browserName)
+        if(currentIndex != -1) {
+          newVal = returnArr[currentIndex].value + 1
+          returnArr.splice(currentIndex, 1)
+        }
+        returnArr.push({
+          value: newVal,
+          name: browserName
+        })
       })
-      var returnData = {
-        rawData: Object.values(browserMap),
-        labels: Object.keys(browserMap),
-      }
-      console.log("browserNameData:", returnData)
-      return returnData
+      console.log("browserNameData:", returnArr)
+      return returnArr
     },
     browserVersionData: function() {
       var browserMap = {}
@@ -42,24 +50,16 @@ export default {
       pageVisitsData.forEach((val) => {
         var browserName = val.userAgent.browserName
         var browserVersion = val.userAgent.browserVersion
-        var browserVersionMap = browserMap[browserName] || { [browserVersion]: 0 }
-        browserVersionMap[browserVersion] = (browserVersionMap[browserVersion] || 0) + 1
-        browserMap[browserName] = browserVersionMap
+        browserMap[browserName] = browserMap[browserName] || [ { name: browserVersion, value: 0 } ]
+        var browserVersionIndex = browserMap[browserName].findIndex(x => x.name === browserVersion)
+        if(browserVersionIndex == -1) {
+          browserMap[browserName].push({ name: browserVersion, value: 1 })
+        } else {
+          browserMap[browserName][browserVersionIndex].value += 1
+        }
       })
-      var returnData = []
-      var browserMapKeys = Object.keys(browserMap)
-      var browserMapValues = Object.values(browserMap)
-      for(var i=0; i < browserMapKeys.length; i++) {
-        returnData.push({
-          browserName: browserMapKeys[i],
-          dataCollection: {
-            labels: Object.keys(browserMapValues[i]),
-            rawData: Object.values(browserMapValues[i])
-          }
-        })
-      }
-      console.log("browserVersionData:", returnData)
-      return returnData
+      console.log("browserMap", browserMap)
+      return browserMap
     }
   },
   components: {

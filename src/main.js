@@ -4,8 +4,9 @@ import './plugins/vuetify'
 import './plugins/google-maps'
 import './plugins/fontawesome'
 import './plugins/moment'
-import App from './App.vue'
+import './plugins/echarts'
 import router from './plugins/router'
+import App from './App.vue'
 import { createProvider } from './plugins/vue-apollo'
 
 Vue.config.productionTip = false

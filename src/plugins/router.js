@@ -7,6 +7,7 @@ import OperatingSystemsView from '../components/OperatingSystemsView'
 import BrowsersView from '../components/BrowsersView'
 import LineChart from '../components/charts/LineChart'
 import CustomChart from '../components/charts/CustomChart'
+import EChartPie from '../components/echarts/EchartPie'
 // const TableLazy = () => import('../views/Table')
 
 Vue.use(Router)
@@ -30,7 +31,7 @@ const childRoutes = [
   },
   {
     path: 'location',
-    component: LineChart,
+    component: EChartPie,
   },
   {
     path: 'frequency',

@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="text-xs-center">
     <v-card-title primary-title>
       <div>
         <h3 class="headline mb-0">{{ title }}</h3>
@@ -7,7 +7,7 @@
       </div>
     </v-card-title>
 
-    <component :is="chartType" :chartData="chartData" :legendPos="legendPos"></component>
+    <component :is="chartType" :chartData="chartData" :size="size"></component>
 
     <!-- <v-card-actions>
       <v-btn flat color="orange">Share</v-btn>
@@ -21,10 +21,11 @@ import BarChart from './charts/BarChart'
 import LineChart from './charts/LineChart'
 import CustomChart from './charts/CustomChart'
 import PieChart from './chart-controllers/PieChartController'
+import EPieChart from './echarts/EchartPie'
 
 export default {
   // name: 'Home',
-  props: ["title", "chartType", "chartData", "legendPos"],
+  props: ["title", "chartType", "chartData", "size"],
   data () {
     return {}
   },
@@ -33,10 +34,14 @@ export default {
     PieChart,
     LineChart,
     CustomChart,
-  },
-  created: function () {
-    // `this` points to the vm instance
-    // console.log('legendPos is: ' + this.legendPos);
+    EPieChart,
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.v-card__title {
+  padding-bottom: 0;
+}
+</style>
+

@@ -1,3 +1,7 @@
 module.exports = {
-  baseUrl: '/analytics'
+  baseUrl: '/analytics',
+  transpileDependencies: [
+    /\bvue-echarts\b/,
+    /\bresize-detector\b/
+  ],
 }
