@@ -79,8 +79,7 @@ export default {
               }
             },
             label: {
-              position: this.size == 'big' ? 'outside' : 'inside',
-              color: this.size == 'big' ? '' : '#000',
+              position: this.size == 'big' ? 'outside' : 'inside'
             }
           }
         ]
