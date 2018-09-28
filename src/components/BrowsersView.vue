@@ -2,10 +2,10 @@
   <div>
     <v-layout row class="mb-2">
       <v-flex xs6>
-        <chart-card title="Browsers" chartType="e-pie-chart" :chartData="browserNameData" size="big"/>
+        <chart-card title="Browser Distribution" chartType="e-pie-chart" :chartData="browserNameData" size="big"/>
       </v-flex>
       <v-flex xs6>
-        <chart-card title="Browsers" chartType="e-pie-chart" :chartData="browserNameData" size="big"/>
+        <chart-card title="Browser Usage" chartType="e-stacked-line" :chartData="browserDateData" size="big"/>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import ChartCard from './ChartCard';
+import ChartCard from './ChartCard'
+import moment from 'moment'
 
 export default {
   props: ["pageVisitsData"],
@@ -58,8 +59,65 @@ export default {
           browserMap[browserName][browserVersionIndex].value += 1
         }
       })
-      console.log("browserMap", browserMap)
+      console.log("browserVersionData", browserMap)
       return browserMap
+    },
+    browserDateData: function() {
+      var browserMap = {}
+      var rangeSize = 10
+      var pageVisitsData = this.pageVisitsData || []
+      if(pageVisitsData.length > 0) {
+        var beginDate = moment.utc(pageVisitsData[0].userAgent.datetime).valueOf()
+        var endDate = moment.utc(pageVisitsData[pageVisitsData.length-1].userAgent.datetime).valueOf()
+        var dateRange = (endDate - beginDate)/rangeSize
+      }
+      pageVisitsData.forEach((val) => {
+        var browserName = val.userAgent.browserName
+        var datetime = moment.utc(val.userAgent.datetime).valueOf()
+        if(browserMap[browserName] === undefined) {
+          browserMap[browserName] = {}
+        }
+        if(browserMap[browserName][datetime] === undefined) {
+          browserMap[browserName][datetime] = 1
+        } else {
+          browserMap[browserName][datetime]++
+        }
+      })
+      console.log("BrowserIntermediateDateData", browserMap)
+
+      var returnArr = []
+      Object.entries(browserMap).forEach(([key, value]) => {
+        var newData = new Array(rangeSize).fill(0)
+        Object.entries(value).forEach(([key, value]) => {
+          var index = Math.floor((key - beginDate)/dateRange)
+          index = index < rangeSize ? index : (rangeSize-1)
+          newData[index] += value
+        })
+
+        for(var i=1; i<rangeSize; i++) {
+            newData[i] += newData[i-1]
+        }
+        
+        returnArr.push({
+          name: key,
+          data: newData
+        })
+      })
+      console.log("BrowserDateData", returnArr)
+
+      var xAxisData = []
+      for(var i=0; i<rangeSize; i++) {
+        var str = ""
+        str += moment(beginDate + dateRange*i).format("M/D")
+        str += " - "
+        str += moment(beginDate + dateRange*(i+1)).format("M/D")
+        xAxisData.push(str)
+      }
+
+      return {
+        xAxisData,
+        series: returnArr
+      }
     }
   },
   components: {

@@ -22,6 +22,7 @@ import LineChart from './charts/LineChart'
 import CustomChart from './charts/CustomChart'
 import PieChart from './chart-controllers/PieChartController'
 import EPieChart from './echarts/EchartPie'
+import EStackedLine from './echarts/EchartStackedLine'
 
 export default {
   // name: 'Home',
@@ -35,6 +36,7 @@ export default {
     LineChart,
     CustomChart,
     EPieChart,
+    EStackedLine,
   },
 }
 </script>
