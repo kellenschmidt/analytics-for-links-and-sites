@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-layout row class="mb-2">
-      <v-flex xs6>
+    <v-layout row wrap class="mb-2">
+      <v-flex xs12 md6>
         <chart-card title="Browser Distribution" chartType="e-pie-chart" :chartData="browserNameData" size="big"/>
       </v-flex>
-      <v-flex xs6>
+      <v-flex xs12 md6>
         <chart-card title="Browser Usage" chartType="e-stacked-line" :chartData="browserDateData" size="big"/>
       </v-flex>
     </v-layout>

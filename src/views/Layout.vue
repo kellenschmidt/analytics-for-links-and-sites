@@ -37,7 +37,69 @@
     </v-navigation-drawer>
     <v-content>
       <v-container wrap grid-list-xl class="px-5">
-        <router-view :pageVisitsData="pageVisits"/>
+        <v-layout row wrap>
+          <v-flex xs12 sm4 md3 lg2 d-flex>
+            <v-select
+              :items="dateRangeItems"
+              v-model="selectedDateRange"
+              item-text="text"
+              item-value="value"
+              solo
+              @change="test"
+            ></v-select>
+          </v-flex>
+          <v-flex xs12 sm4 md3 lg2 d-flex v-if="this.selectedDateRange === 'custom'">
+            <v-menu
+              ref="startDateMenu"
+              :close-on-content-click="false"
+              v-model="startDateModal"
+              :return-value.sync="startDate"
+              lazy
+              transition="scale-transition"
+              offset-y
+            >
+              <v-text-field
+                slot="activator"
+                v-model="startDate"
+                label="Start Date"
+                prepend-icon="event"
+                readonly
+                solo
+              ></v-text-field>
+              <v-date-picker
+                v-model="startDate"
+                @input="$refs.startDateMenu.save(startDate)"
+                no-title
+              />
+            </v-menu>
+          </v-flex>
+          <v-flex xs12 sm4 md3 lg2 d-flex v-if="this.selectedDateRange === 'custom'">
+            <v-menu
+              ref="endDateMenu"
+              :close-on-content-click="false"
+              v-model="endDateModal"
+              :return-value.sync="endDate"
+              lazy
+              transition="scale-transition"
+              offset-y
+            >
+              <v-text-field
+                slot="activator"
+                v-model="endDate"
+                label="End Date"
+                prepend-icon="event"
+                readonly
+                solo
+              ></v-text-field>
+              <v-date-picker
+                v-model="endDate"
+                @input="$refs.endDateMenu.save(endDate)"
+                no-title
+              />
+            </v-menu>
+          </v-flex>
+        </v-layout>
+        <router-view :pageVisitsData="pageVisitsInRange"/>
       </v-container>
     </v-content>
     <v-footer app fixed>
@@ -65,8 +127,24 @@ export default {
         { title: 'Frequency', name: 'frequency', icon: ['fab', 'vuejs'] },
         { title: 'Table', name: 'table', icon: ['fab', 'vuejs'] },
       ],
+      dateRangeItems: [{text: 'All time', value: "1"}, {text: 'Last week', value: "2"}, {text: 'Last month', value: "3"}, {text: 'Last year', value: "4"}, {text: 'Custom...', value: "custom"}],
+      selectedDateRange: "1",
+      startDate: null,
+      endDate: null,
+      startDateModal: false,
+      endDateModal: false,
       drawer: true,
       appVersion: appVersion,
+    }
+  },
+  computed: {
+    pageVisitsInRange: function() {
+      return this.pageVisits
+    }
+  },
+  methods: {
+    test: function() {
+      
     }
   },
   components: {
