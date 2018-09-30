@@ -18,6 +18,7 @@
       <v-list dense>
         <router-link
           :to="item.name"
+          :event="(item.name === 'disabled' ? '' : 'click')"
           tag="span"
           class="nav-row"
           v-for="item in items"
@@ -45,7 +46,6 @@
               item-text="text"
               item-value="value"
               solo
-              @change="test"
             ></v-select>
           </v-flex>
           <v-flex xs12 sm4 md3 lg2 d-flex v-if="this.selectedDateRange === 'custom'">
@@ -113,22 +113,24 @@
 import Table from "./Table";
 import { appVersion } from '../app-version';
 import PageVisitsGql from '../graphql/PageVisits.gql'
+import moment from 'moment'
 
 export default {
   // name: 'Home',
   data () {
     return {
       items: [
-        { title: 'Overview', name: 'overview', icon: ['fab', 'vuejs'] },
-        { title: 'Browsers', name: 'browsers', icon: ['fab', 'vuejs'] },
-        { title: 'Operating Systems', name: 'operating-systems', icon: ['fab', 'vuejs'] },
-        { title: 'Devices', name: 'devices', icon: ['fab', 'vuejs'] },
-        { title: 'Location', name: 'location', icon: ['fab', 'vuejs'] },
-        { title: 'Frequency', name: 'frequency', icon: ['fab', 'vuejs'] },
-        { title: 'Table', name: 'table', icon: ['fab', 'vuejs'] },
+        // { title: 'Overview', name: 'overview', icon: ['fab', 'vuejs'] },
+        { title: 'Browsers', name: 'browsers', icon: ['fab', 'chrome'] },
+        // { title: 'Operating Systems', name: 'operating-systems', icon: ['fab', 'vuejs'] },
+        // { title: 'Devices', name: 'devices', icon: ['fab', 'vuejs'] },
+        // { title: 'Location', name: 'location', icon: ['fab', 'vuejs'] },
+        // { title: 'Frequency', name: 'frequency', icon: ['fab', 'vuejs'] },
+        { title: 'Table', name: 'table', icon: ['fas', 'table'] },
+        { title: 'More coming soon...', name: 'disabled', icon: ['fas', 'ellipsis-h'] },
       ],
-      dateRangeItems: [{text: 'All time', value: "1"}, {text: 'Last week', value: "2"}, {text: 'Last month', value: "3"}, {text: 'Last year', value: "4"}, {text: 'Custom...', value: "custom"}],
-      selectedDateRange: "1",
+      dateRangeItems: [{text: 'All time', value: "all time"}, {text: 'Last week', value: moment().subtract(7, 'days')}, {text: 'Last month', value: moment().subtract(1, 'month')}, {text: 'Last year', value: moment().subtract(1, 'year')}, {text: 'Custom...', value: "custom"}],
+      selectedDateRange: "all time",
       startDate: null,
       endDate: null,
       startDateModal: false,
@@ -139,12 +141,30 @@ export default {
   },
   computed: {
     pageVisitsInRange: function() {
-      return this.pageVisits
+      if(this.selectedDateRange === "all time") {
+        return this.pageVisits
+      }
+      if(this.selectedDateRange === "custom") {
+        return this.getPageVisitsByDate(this.startDate, this.endDate)
+      }
+      return this.getPageVisitsByDate(this.selectedDateRange, new Date())
     }
   },
   methods: {
-    test: function() {
-      
+    getPageVisitsByDate: function(start, end) {
+      if(start === null && end === null) {
+        return this.pageVisits
+      }
+
+      var inDateRange = []
+      this.pageVisits.forEach((val) => {
+        const valDatetime = moment(val.userAgent.datetime)
+        if((start === null || valDatetime > moment(start)) && (end === null || valDatetime < moment(end))) {
+          inDateRange.push(val)
+        }
+      })
+
+      return inDateRange
     }
   },
   components: {
