@@ -24,7 +24,9 @@ import ChartCard from './ChartCard'
 import moment from 'moment'
 
 export default {
-  props: ["pageVisitsData"],
+  props: {
+    pageVisitsData: Array,
+  },
   computed: {
     browserNameData: function() {
       var returnArr = []

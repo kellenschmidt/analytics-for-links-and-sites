@@ -26,7 +26,12 @@ import EStackedLine from './echarts/EchartStackedLine'
 
 export default {
   // name: 'Home',
-  props: ["title", "chartType", "chartData", "size"],
+  props: {
+    title: String,
+    chartType: String,
+    chartData: [Array, Object],
+    size: String,
+  },
   data () {
     return {}
   },

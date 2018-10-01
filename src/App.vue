@@ -1,6 +1,6 @@
 <template>
   <v-app :dark="darkTheme">
-    <router-view/>
+    <router-view :toggleTheme="toggleTheme"/>
   </v-app>
 </template>
 
@@ -17,6 +17,11 @@ export default {
     darkTheme: function (val) {
       this.$vuetify.theme.text = val ? '#ffffff' : '#000000';
     },
+  },
+  methods: {
+    toggleTheme: function() {
+      this.darkTheme = !this.darkTheme
+    }
   }
 }
 </script>

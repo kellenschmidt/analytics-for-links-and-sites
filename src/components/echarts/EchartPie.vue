@@ -22,7 +22,10 @@ export default {
   components: {
     chart: ECharts
   },
-  props: ["chartData", "size"],
+  props: {
+    chartData: Array,
+    size: String
+  },
   computed: {
     pie: function () {
       return  {

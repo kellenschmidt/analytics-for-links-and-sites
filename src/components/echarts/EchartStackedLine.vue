@@ -20,7 +20,10 @@ export default {
   components: {
     chart: ECharts
   },
-  props: ["chartData", "size"],
+  props: {
+    chartData: Object,
+    size: String
+  },
   computed: {
     stackedLine: function() {
       return {

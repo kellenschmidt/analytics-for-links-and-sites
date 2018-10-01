@@ -90,7 +90,7 @@
                 prepend-icon="event"
                 readonly
                 solo
-              ></v-text-field>
+              />
               <v-date-picker
                 v-model="endDate"
                 @input="$refs.endDateMenu.save(endDate)"
@@ -98,13 +98,21 @@
               />
             </v-menu>
           </v-flex>
+          <v-flex xs12 sm4 md3 lg2 d-flex>
+            <v-select
+              :items="linkOrSiteItems"
+              v-model="selectedLinkOrSite"
+              solo
+            ></v-select>
+          </v-flex>
         </v-layout>
         <router-view :pageVisitsData="pageVisitsInRange"/>
       </v-container>
     </v-content>
     <v-footer app fixed>
-      <span>&copy; 2018 Version:&nbsp;</span>
+      <span class="ml-2">&copy; 2018 Version:&nbsp;</span>
       <a href="https://hub.docker.com/r/kellenschmidt/analytics-for-links-and-sites/tags/" target="_blank" rel="noopener">{{appVersion}}</a>
+      <font-awesome-icon icon="palette" class="ml-auto mr-3" @click="toggleTheme"/>
     </v-footer>
   </div>
 </template>
@@ -117,6 +125,9 @@ import moment from 'moment'
 
 export default {
   // name: 'Home',
+  props: {
+    toggleTheme: Function,
+  },
   data () {
     return {
       items: [
@@ -131,6 +142,7 @@ export default {
       ],
       dateRangeItems: [{text: 'All time', value: "all time"}, {text: 'Last week', value: moment().subtract(7, 'days')}, {text: 'Last month', value: moment().subtract(1, 'month')}, {text: 'Last year', value: moment().subtract(1, 'year')}, {text: 'Custom...', value: "custom"}],
       selectedDateRange: "all time",
+      selectedLinkOrSite: null,
       startDate: null,
       endDate: null,
       startDateModal: false,
@@ -141,13 +153,30 @@ export default {
   },
   computed: {
     pageVisitsInRange: function() {
-      if(this.selectedDateRange === "all time") {
-        return this.pageVisits
-      }
+      var returnPageVisits = this.pageVisits || []
+      
       if(this.selectedDateRange === "custom") {
-        return this.getPageVisitsByDate(this.startDate, this.endDate)
+        returnPageVisits = this.getPageVisitsByDate(this.startDate, this.endDate)
+      } else if(this.selectedDateRange !== "all time") {
+        returnPageVisits = this.getPageVisitsByDate(this.selectedDateRange, new Date())
       }
-      return this.getPageVisitsByDate(this.selectedDateRange, new Date())
+      if(this.selectedLinkOrSite && this.selectedLinkOrSite.includes("All") === false) {
+        returnPageVisits = this.getPageVisitsByPath(returnPageVisits, this.selectedLinkOrSite)
+      }
+
+      return returnPageVisits
+    },
+    linkOrSiteItems: function() {
+      var pageVisits = this.pageVisits || []
+      var itemsObj = {}
+      pageVisits.forEach((val) => {
+        itemsObj[val.path] = ""
+      })
+
+      var returnArr = Object.keys(itemsObj)
+      var isSite = location.pathname.includes("/site/")
+      returnArr.unshift(`All ${isSite ? 'pages' : 'links'}`)
+      return returnArr
     }
   },
   methods: {
@@ -165,6 +194,21 @@ export default {
       })
 
       return inDateRange
+    },
+    getPageVisitsByPath: function(inputPageVisits, pathFilter) {
+      var returnArr = []
+      inputPageVisits.forEach((val) => {
+        if(val.path === pathFilter) {
+          returnArr.push(val)
+        }
+      })
+
+      return returnArr
+    }
+  },
+  watch: {
+    linkOrSiteItems: function() {
+      this.selectedLinkOrSite = this.linkOrSiteItems !== null ? this.linkOrSiteItems[0] : null
     }
   },
   components: {
