@@ -153,7 +153,9 @@ export default {
   },
   computed: {
     pageVisitsInRange: function() {
-      var returnPageVisits = this.pageVisits || []
+      var allPageVisits = this.pageVisits || []
+
+      var returnPageVisits = this.removeInvalidPageVisits(allPageVisits)
       
       if(this.selectedDateRange === "custom") {
         returnPageVisits = this.getPageVisitsByDate(this.startDate, this.endDate)
@@ -199,6 +201,16 @@ export default {
       var returnArr = []
       inputPageVisits.forEach((val) => {
         if(val.path === pathFilter) {
+          returnArr.push(val)
+        }
+      })
+
+      return returnArr
+    },
+    removeInvalidPageVisits: function(inputPageVisits) {
+      var returnArr = []
+      inputPageVisits.forEach((val) => {
+        if(val.ipAddress !== null && val.userAgent !== null) {
           returnArr.push(val)
         }
       })
