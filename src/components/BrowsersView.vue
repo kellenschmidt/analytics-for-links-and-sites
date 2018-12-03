@@ -32,7 +32,7 @@ export default {
       var returnArr = []
       var pageVisitsData = this.pageVisitsData || []
       pageVisitsData.forEach((val) => {
-        var browserName = val.userAgent.browserName
+        var browserName = val.userAgent.softwareName
         var newVal = 1
         var currentIndex = returnArr.findIndex(x => x.name === browserName)
         if(currentIndex != -1) {
@@ -51,8 +51,8 @@ export default {
       var browserMap = {}
       var pageVisitsData = this.pageVisitsData || []
       pageVisitsData.forEach((val) => {
-        var browserName = val.userAgent.browserName
-        var browserVersion = val.userAgent.browserVersion
+        var browserName = val.userAgent.softwareName
+        var browserVersion = val.userAgent.softwareVersion
         browserMap[browserName] = browserMap[browserName] || [ { name: browserVersion, value: 0 } ]
         var browserVersionIndex = browserMap[browserName].findIndex(x => x.name === browserVersion)
         if(browserVersionIndex == -1) {
@@ -74,7 +74,7 @@ export default {
         var dateRange = (endDate - beginDate)/rangeSize
       }
       pageVisitsData.forEach((val) => {
-        var browserName = val.userAgent.browserName
+        var browserName = val.userAgent.softwareName
         var datetime = moment.utc(val.userAgent.datetime).valueOf()
         if(browserMap[browserName] === undefined) {
           browserMap[browserName] = {}

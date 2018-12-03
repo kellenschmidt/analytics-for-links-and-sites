@@ -23,17 +23,19 @@
     userAgent {
       _id
       userAgent
-      uaType
-      uaBrand
-      uaName
-      uaVersion
-      uaUrl
-      osName
-      osVersion
-      browserName
-      browserVersion
-      engineName
-      engineVersion
+      software
+      softwareName
+      softwareVersion
+      softwareNameCode
+      softwareVersionFull
+      operatingSystem
+      operatingSystemName
+      operatingSystemVersion
+      operatingSystemNameCode
+      operatingSystemVersionFull
+      simpleOperatingPlatformString
+      simpleSoftwareString
+      status
       datetime
     }
   }

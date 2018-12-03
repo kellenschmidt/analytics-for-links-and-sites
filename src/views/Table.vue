@@ -21,15 +21,13 @@
           <template slot="items" slot-scope="props">
             <tr @click="props.expanded = !props.expanded">
               <td>{{ props.item.path }}</td>
+              <td>{{ props.item.referrer }}</td>
               <td>{{ props.item.ipAddress.query }}</td>
               <td>{{ props.item.ipAddress.city }}</td>
               <td>{{ props.item.ipAddress.region }}</td>
               <td>{{ props.item.ipAddress.country }}</td>
-              <td>{{ props.item.userAgent.uaType }}</td>
-              <td>{{ props.item.userAgent.browserName }}</td>
-              <td>{{ props.item.userAgent.browserVersion }}</td>
-              <td>{{ props.item.userAgent.osName }}</td>
-              <td>{{ props.item.userAgent.osVersion }}</td>
+              <td>{{ props.item.userAgent.software }}</td>
+              <td>{{ props.item.userAgent.operatingSystem }}</td>
               <td>{{ props.item.userAgent.datetime | formatDate }}</td>
             </tr>
           </template>
@@ -62,15 +60,13 @@
       return {
         headers: [
           { text: 'Page', value: 'path' },
+          { text: 'Referrer', value: 'referrer' },
           { text: 'IP Address', value: 'ipAddress.query' },
           { text: 'City', value: 'ipAddress.city' },
           { text: 'State', value: 'ipAddress.state' },
           { text: 'Country', value: 'ipAddress.country' },
-          { text: 'Type', value: 'userAgent.uaType' },
-          { text: 'Browser', value: 'userAgent.browserName' },
-          { text: 'Browser Version', value: 'userAgent.browserName' },
-          { text: 'OS', value: 'userAgent.browserName' },
-          { text: 'OS Version', value: 'userAgent.browserName' },
+          { text: 'Browser', value: 'userAgent.software' },
+          { text: 'Operating System', value: 'userAgent.operatingSystem' },
           { text: 'Date', value: 'userAgent.datetime' },
         ],
       }
