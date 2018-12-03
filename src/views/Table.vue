@@ -1,20 +1,18 @@
 <template>
   <!-- Apollo watched Graphql query -->
-  <ApolloQuery
+  <!-- <ApolloQuery
     :query="require('../graphql/PageVisits.gql')"
   >
     <template slot-scope="{ result: { loading, error, data } }">
-      <!-- Loading -->
+
       <div v-if="loading" class="loading apollo">Loading...</div>
 
-      <!-- Error -->
       <div v-else-if="error" class="error apollo">An error occured</div>
 
-      <!-- Result -->
-      <div v-else-if="data" class="result apollo">
+      <div v-else-if="data" class="result apollo"> -->
         <v-data-table
           :headers="headers"
-          :items="data.pageVisits"
+          :items="pageVisitsData"
           hide-actions
           item-key="_id"
         >
@@ -45,17 +43,19 @@
             </v-card>
           </template>
         </v-data-table>
-      </div>
+      <!-- </div>
 
-      <!-- No result -->
       <div v-else class="no-result apollo">No result :(</div>
     </template>
-  </ApolloQuery>
+  </ApolloQuery> -->
 </template>
 
 <script>
   export default {
     name: 'Table',
+    props: {
+      pageVisitsData: Array,
+    },
     data () {
       return {
         headers: [
