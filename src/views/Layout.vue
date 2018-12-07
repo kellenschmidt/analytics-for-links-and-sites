@@ -102,6 +102,7 @@
             <v-select
               :items="linkOrSiteItems"
               v-model="selectedLinkOrSite"
+              @change="routeToNewLink"
               solo
             ></v-select>
           </v-flex>
@@ -148,6 +149,8 @@ export default {
       startDateModal: false,
       endDateModal: false,
       drawer: true,
+      isSites: this.$router.currentRoute.path.includes("/sites"),
+      sitesArr: ["/interactive-resume", "/url-shortener"],
       appVersion: appVersion,
     }
   },
@@ -162,7 +165,7 @@ export default {
       } else if(this.selectedDateRange !== "all time") {
         returnPageVisits = this.getPageVisitsByDate(this.selectedDateRange, new Date())
       }
-      if(this.selectedLinkOrSite && this.selectedLinkOrSite.includes("All") === false) {
+      if(this.selectedLinkOrSite) {
         returnPageVisits = this.getPageVisitsByPath(returnPageVisits, this.selectedLinkOrSite)
       }
 
@@ -172,12 +175,14 @@ export default {
       var pageVisits = this.pageVisits || []
       var itemsObj = {}
       pageVisits.forEach((val) => {
-        itemsObj[val.path] = ""
+        const sameType = this.isSites === this.sitesArr.includes(val.path)
+        if(val.userId !== null && sameType) {
+          itemsObj[val.path] = ""
+        }
       })
 
       var returnArr = Object.keys(itemsObj)
-      var isSite = location.pathname.includes("/site/")
-      returnArr.unshift(`All ${isSite ? 'pages' : 'links'}`)
+      returnArr.unshift(`All ${this.isSites ? 'sites' : 'links'}`)
       return returnArr
     }
   },
@@ -200,7 +205,8 @@ export default {
     getPageVisitsByPath: function(inputPageVisits, pathFilter) {
       var returnArr = []
       inputPageVisits.forEach((val) => {
-        if(val.path === pathFilter) {
+        const sameType = this.isSites === this.sitesArr.includes(val.path)
+        if((val.path === pathFilter || pathFilter.includes("All ")) && sameType) {
           returnArr.push(val)
         }
       })
@@ -216,11 +222,34 @@ export default {
       })
 
       return returnArr
+    },
+    getInitialLink: function() {
+      const pageId = this.$router.currentRoute.params.pageId
+      
+      return pageId === undefined ? this.linkOrSiteItems[0] : "/" + pageId
+    },
+    routeToNewLink: function(selectedPath) {
+      const currentPath = this.$router.currentRoute.path
+      const pathSuffix = currentPath.substring(currentPath.lastIndexOf("/"))
+      
+      if(selectedPath.includes("All ")) {
+        selectedPath = ""
+      }
+
+      const newPath = (this.isSites ? "/sites" : "/links") + selectedPath + pathSuffix
+      this.$router.push(newPath)
+    }
+  },
+  mounted() {
+    const pageId = this.$router.currentRoute.params.pageId
+
+    if(pageId !== undefined && !this.linkOrSiteItems.includes(pageId)) {
+      this.routeToNewLink("All ")
     }
   },
   watch: {
     linkOrSiteItems: function() {
-      this.selectedLinkOrSite = this.linkOrSiteItems !== null ? this.linkOrSiteItems[0] : null
+      this.selectedLinkOrSite = this.getInitialLink()
     }
   },
   components: {

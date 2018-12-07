@@ -51,18 +51,28 @@ export default new Router({
   base: '/analytics',
   routes: [
     {
-      path: '/links/:linkId/',
+      path: '/links/',
       component: Layout,
       children: childRoutes
     },
     {
-      path: '/site/',
+      path: '/sites/',
+      component: Layout,
+      children: childRoutes
+    },
+    {
+      path: '/links/:pageId/',
+      component: Layout,
+      children: childRoutes
+    },
+    {
+      path: '/sites/:pageId/',
       component: Layout,
       children: childRoutes
     },
     {
       path: '',
-      redirect: 'site/table'
+      redirect: 'sites/table'
     }
   ],
   mode: 'history',
