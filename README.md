@@ -1,5 +1,9 @@
 # analytics-for-links-and-sites
 
+[![CircleCI](https://circleci.com/gh/kellenschmidt/analytics-for-links-and-sites.svg?style=svg)](https://circleci.com/gh/kellenschmidt/analytics-for-links-and-sites)
+
+Vue.js web application to analyze click traffic on shortened links and visitor traffic on kellenschmidt.com
+
 ## Project setup
 ```
 yarn install

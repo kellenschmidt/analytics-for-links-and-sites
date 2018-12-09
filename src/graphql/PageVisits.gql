@@ -1,0 +1,42 @@
+{
+  pageVisits {
+		_id
+    path
+    referrer
+		ipAddress {
+      _id
+			query
+			status
+			country
+			countryCode
+			region
+			regionName
+			city
+			zip
+			lat
+			lon
+			timezone
+			isp
+			org
+			as
+    }
+    userAgent {
+      _id
+      userAgent
+      software
+      softwareName
+      softwareVersion
+      softwareNameCode
+      softwareVersionFull
+      operatingSystem
+      operatingSystemName
+      operatingSystemVersion
+      operatingSystemNameCode
+      operatingSystemVersionFull
+      simpleOperatingPlatformString
+      simpleSoftwareString
+      status
+      datetime
+    }
+  }
+}

@@ -5,12 +5,24 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test": "echo \"No tests yet :(\" >",
+    "version": "sh version.sh $npm_package_version"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.4",
+    "@fortawesome/free-brands-svg-icons": "^5.3.1",
+    "@fortawesome/free-regular-svg-icons": "^5.3.1",
+    "@fortawesome/free-solid-svg-icons": "^5.3.1",
+    "@fortawesome/vue-fontawesome": "^0.1.1",
+    "chart.js": "^2.7.2",
+    "moment": "^2.22.2",
     "vue": "^2.5.17",
     "vue-apollo": "^3.0.0-beta.10",
+    "vue-chartjs": "^3.4.0",
+    "vue-echarts": "^3.1.2",
     "vue-router": "^3.0.1",
+    "vue2-google-maps": "^0.10.2",
     "vuetify": "^1.0.19"
   },
   "devDependencies": {
@@ -19,9 +31,11 @@
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-service": "^3.0.1",
     "graphql-tag": "^2.9.0",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0",
     "vue-cli-plugin-apollo": "^0.16.3",
-    "vue-cli-plugin-vuetify": "^0.1.6",
     "vue-cli-plugin-bootstrap": "^1.0.0-alpha.1",
+    "vue-cli-plugin-vuetify": "^0.1.6",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
