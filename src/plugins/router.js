@@ -25,10 +25,10 @@ const childRoutes = [
     path: 'operating-systems',
     component: OperatingSystemsView,
   },
-  {
-    path: 'devices',
-    component: LineChart,
-  },
+  // {
+  //   path: 'devices',
+  //   component: LineChart,
+  // },
   {
     path: 'location',
     component: EChartPie,
