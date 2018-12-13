@@ -7,7 +7,7 @@
       app
     >
       <p class="headline pt-4 text-xs-center">
-        Link Analytics
+        {{isSites ? "Site" : "Link"}} Analytics
       </p>
       <v-avatar size="80px" class="d-flex mx-auto my-3">
         <img src="@/assets/graphql.png" alt="user-avatar">
@@ -158,7 +158,7 @@ export default {
     pageVisitsInRange: function() {
       var allPageVisits = this.pageVisits || []
 
-      var returnPageVisits = this.removeInvalidPageVisits(allPageVisits)
+      var returnPageVisits = this.fixInvalidPageVisits(allPageVisits)
       
       if(this.selectedDateRange === "custom") {
         returnPageVisits = this.getPageVisitsByDate(this.startDate, this.endDate)
@@ -213,12 +213,15 @@ export default {
 
       return returnArr
     },
-    removeInvalidPageVisits: function(inputPageVisits) {
+    fixInvalidPageVisits: function(inputPageVisits) {
       var returnArr = []
       inputPageVisits.forEach((val) => {
-        if(val.ipAddress !== null && val.userAgent !== null) {
-          returnArr.push(val)
+        if(val.ipAddress === null) {
+          val.ipAddress = {}
+        } else if(val.userAgent === null) {
+          val.userAgent = {}
         }
+        returnArr.push(val)
       })
 
       return returnArr

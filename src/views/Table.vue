@@ -2,7 +2,6 @@
   <v-data-table
     :headers="headers"
     :items="pageVisitsData"
-    hide-actions
     item-key="_id"
   >
     <template slot="items" slot-scope="props">
@@ -20,13 +19,13 @@
     </template>
     <template slot="expand" slot-scope="props">
       <v-card flat>
-        <v-card-text>Map</v-card-text>
+        <!-- <v-card-text>Map</v-card-text> -->
         <GmapMap
           :center="{lat: props.item.ipAddress.lat, lng: props.item.ipAddress.lon}"
           :zoom="10"
           style="width: 500px; height: 300px"
         >
-          <GmapCircle :center="{lat: props.item.ipAddress.lat, lng: props.item.ipAddress.lon}" :radius="3000" @bounds_changed="updateCircle('bounds', $event)"></GmapCircle>
+          <GmapCircle :center="{lat: props.item.ipAddress.lat, lng: props.item.ipAddress.lon}" :radius="4000" @bounds_changed="updateCircle('bounds', $event)"></GmapCircle>
         </GmapMap>
         
       </v-card>
