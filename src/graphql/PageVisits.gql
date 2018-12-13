@@ -3,6 +3,7 @@
 		_id
     path
     referrer
+    datetime
 		ipAddress {
       _id
 			query
@@ -36,7 +37,6 @@
       simpleOperatingPlatformString
       simpleSoftwareString
       status
-      datetime
     }
   }
 }

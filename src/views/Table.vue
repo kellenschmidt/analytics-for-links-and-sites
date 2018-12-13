@@ -14,7 +14,7 @@
         <td>{{ props.item.ipAddress.country }}</td>
         <td>{{ props.item.userAgent.software }}</td>
         <td>{{ props.item.userAgent.operatingSystem }}</td>
-        <td>{{ props.item.userAgent.datetime | formatDate }}</td>
+        <td>{{ props.item.datetime | formatDate }}</td>
       </tr>
     </template>
     <template slot="expand" slot-scope="props">
@@ -50,7 +50,7 @@
           { text: 'Country', value: 'ipAddress.country' },
           { text: 'Browser', value: 'userAgent.software' },
           { text: 'Operating System', value: 'userAgent.operatingSystem' },
-          { text: 'Date', value: 'userAgent.datetime' },
+          { text: 'Date', value: 'datetime' },
         ],
       }
     }

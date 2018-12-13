@@ -194,7 +194,7 @@ export default {
 
       var inDateRange = []
       this.pageVisits.forEach((val) => {
-        const valDatetime = moment(val.userAgent.datetime)
+        const valDatetime = moment(val.datetime)
         if((start === null || valDatetime > moment(start)) && (end === null || valDatetime < moment(end))) {
           inDateRange.push(val)
         }
