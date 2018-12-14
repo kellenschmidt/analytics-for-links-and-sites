@@ -3,7 +3,7 @@
 # docker build --build-arg APP_VERSION=v1 -t kellenschmidt/analytics-for-links-and-sites .
 # docker run -p 80:80 -d kellenschmidt/analytics-for-links-and-sites
 
-FROM node:9-alpine as build-stage
+FROM node:10-alpine as build-stage
 ARG APP_VERSION
 RUN mkdir /app
 WORKDIR /app
@@ -14,7 +14,7 @@ COPY . .
 RUN yarn run version $APP_VERSION
 RUN yarn build
 
-FROM nginx:1.13-alpine
+FROM nginx:1.14-alpine
 ADD nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 EXPOSE 80
