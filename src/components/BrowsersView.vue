@@ -69,13 +69,13 @@ export default {
       var rangeSize = 10
       var pageVisitsData = this.pageVisitsData || []
       if(pageVisitsData.length > 0) {
-        var beginDate = moment.utc(pageVisitsData[0].userAgent.datetime).valueOf()
-        var endDate = moment.utc(pageVisitsData[pageVisitsData.length-1].userAgent.datetime).valueOf()
+        var beginDate = moment.utc(pageVisitsData[0].datetime).valueOf()
+        var endDate = moment.utc(pageVisitsData[pageVisitsData.length-1].datetime).valueOf()
         var dateRange = (endDate - beginDate)/rangeSize
       }
       pageVisitsData.forEach((val) => {
         var browserName = val.userAgent.softwareName
-        var datetime = moment.utc(val.userAgent.datetime).valueOf()
+        var datetime = moment.utc(val.datetime).valueOf()
         if(browserMap[browserName] === undefined) {
           browserMap[browserName] = {}
         }

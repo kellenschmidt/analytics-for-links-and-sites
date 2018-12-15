@@ -2,7 +2,6 @@
   <v-data-table
     :headers="headers"
     :items="pageVisitsData"
-    hide-actions
     item-key="_id"
   >
     <template slot="items" slot-scope="props">
@@ -15,18 +14,18 @@
         <td>{{ props.item.ipAddress.country }}</td>
         <td>{{ props.item.userAgent.software }}</td>
         <td>{{ props.item.userAgent.operatingSystem }}</td>
-        <td>{{ props.item.userAgent.datetime | formatDate }}</td>
+        <td>{{ props.item.datetime | formatDate }}</td>
       </tr>
     </template>
     <template slot="expand" slot-scope="props">
       <v-card flat>
-        <v-card-text>Map</v-card-text>
+        <!-- <v-card-text>Map</v-card-text> -->
         <GmapMap
           :center="{lat: props.item.ipAddress.lat, lng: props.item.ipAddress.lon}"
           :zoom="10"
           style="width: 500px; height: 300px"
         >
-          <GmapCircle :center="{lat: props.item.ipAddress.lat, lng: props.item.ipAddress.lon}" :radius="3000" @bounds_changed="updateCircle('bounds', $event)"></GmapCircle>
+          <GmapCircle :center="{lat: props.item.ipAddress.lat, lng: props.item.ipAddress.lon}" :radius="4000" @bounds_changed="updateCircle('bounds', $event)"></GmapCircle>
         </GmapMap>
         
       </v-card>
@@ -51,7 +50,7 @@
           { text: 'Country', value: 'ipAddress.country' },
           { text: 'Browser', value: 'userAgent.software' },
           { text: 'Operating System', value: 'userAgent.operatingSystem' },
-          { text: 'Date', value: 'userAgent.datetime' },
+          { text: 'Date', value: 'datetime' },
         ],
       }
     }
