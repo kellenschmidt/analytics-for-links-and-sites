@@ -13,10 +13,6 @@ export default {
       darkTheme: true,
     }
   },
-  mounted () {
-    console.log("ENV VARs:", process.env)
-    console.log("API KEY:", process.env.VUE_APP_GOOGLE_MAPS_API_KEY)
-  },
   watch: {
     darkTheme: function (val) {
       this.$vuetify.theme.text = val ? '#ffffff' : '#000000';
